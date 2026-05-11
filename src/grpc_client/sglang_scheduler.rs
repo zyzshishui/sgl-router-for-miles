@@ -316,6 +316,8 @@ impl SglangSchedulerClient {
             logprob_start_len: -1,
             top_logprobs_num: body.top_logprobs.unwrap_or(0) as i32,
             return_hidden_states: body.return_hidden_states,
+            return_routed_experts: body.return_routed_experts,
+            routed_experts_start_len: body.routed_experts_start_len,
             stream: body.stream,
             ..Default::default()
         };
@@ -346,6 +348,8 @@ impl SglangSchedulerClient {
             top_logprobs_num: body.top_logprobs_num.unwrap_or(0),
             token_ids_logprob: body.token_ids_logprob.clone().unwrap_or_default(),
             return_hidden_states: body.return_hidden_states,
+            return_routed_experts: body.return_routed_experts,
+            routed_experts_start_len: body.routed_experts_start_len,
             stream: body.stream,
             log_metrics: body.log_metrics,
             ..Default::default()
@@ -700,6 +704,8 @@ mod tests {
             return_logprob: true,
             logprob_start_len: 0,
             top_logprobs_num: 5,
+            return_routed_experts: true,
+            routed_experts_start_len: 7,
             ..Default::default()
         };
 
@@ -709,6 +715,8 @@ mod tests {
         }
         assert!(gen_req.return_logprob);
         assert_eq!(gen_req.top_logprobs_num, 5);
+        assert!(gen_req.return_routed_experts);
+        assert_eq!(gen_req.routed_experts_start_len, 7);
 
         let params = gen_req.sampling_params.unwrap();
         assert_eq!(params.temperature, 0.7);

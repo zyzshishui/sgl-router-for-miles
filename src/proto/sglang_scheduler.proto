@@ -130,6 +130,12 @@ message GenerateRequest {
 
   // Whether client wants streaming response
   bool stream = 17;
+
+  // Return routed expert indices (MoE models)
+  bool return_routed_experts = 18;
+
+  // Absolute start position for returned routed experts
+  int32 routed_experts_start_len = 19;
 }
 
 message TokenizedInput {
